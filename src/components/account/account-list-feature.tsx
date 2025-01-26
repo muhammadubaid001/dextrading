@@ -15,7 +15,7 @@ export default function AccountListFeature() {
   return (
     <div className="hero py-[64px]">
       <div className="hero-content text-center">
-        <WalletButton />
+        <WalletButton className='!bg-green-200 !rounded-full' />
       </div>
     </div>
   )
