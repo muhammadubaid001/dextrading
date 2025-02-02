@@ -1,13 +1,16 @@
 "use client";
 
-import Link from "next/link";
 import { WalletButton } from "../solana/solana-provider";
 import { CircleDollarSign, Eye, User } from "lucide-react";
-import ReactApexChart from "react-apexcharts";
+
+import dynamic from 'next/dynamic'
+ 
+const DynamicComponentWithNoSSR = dynamic(
+  () => import('react-apexcharts'),
+  { ssr: false }
+)
 
 export default function DashboardFeature() {
-
-
   const options: any = {
     chart: {
       id: "chart2",
@@ -121,7 +124,7 @@ export default function DashboardFeature() {
             </div>
           </div>
         </div>
-        {typeof window !== 'undefined' && <ReactApexChart  options={options} series={options.series} type="area" height={350} />}
+         <DynamicComponentWithNoSSR  options={options} series={options.series} type="area" height={350} />
       </div>
     </div>
   );
