@@ -12,6 +12,9 @@ export const metadata = {
 const links: { label: string; path: string }[] = [
   { label: 'Account', path: '/account' },
   { label: 'Clusters', path: '/clusters' },
+  { label: 'Main Page', path: '/clusters' },
+  { label: 'Contact Us', path: '/contact' },
+  { label: 'DXT Token', path: '/token' },
 ]
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -1,65 +1,87 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import {usePathname} from 'next/navigation'
-import * as React from 'react'
-import {ReactNode, Suspense, useEffect, useRef} from 'react'
-import toast, {Toaster} from 'react-hot-toast'
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import * as React from "react";
+import { ReactNode, Suspense, useEffect, useRef } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
-import {AccountChecker} from '../account/account-ui'
-import {ClusterChecker, ClusterUiSelect, ExplorerLink} from '../cluster/cluster-ui'
-import {WalletButton} from '../solana/solana-provider'
-import Sidebar from './Sidebar'
+import { AccountChecker } from "../account/account-ui";
+import {
+  ClusterChecker,
+  ClusterUiSelect,
+  ExplorerLink,
+} from "../cluster/cluster-ui";
+import { WalletButton } from "../solana/solana-provider";
+import Sidebar from "./Sidebar";
+import { MobileSidebar } from "./MobileSidebar";
 
-export function UiLayout({ children, links }: { children: ReactNode; links: { label: string; path: string }[] }) {
-  const pathname = usePathname()
+export function UiLayout({
+  children,
+  links,
+}: {
+  children: ReactNode;
+  links: { label: string; path: string }[];
+}) {
+  const pathname = usePathname();
 
   return (
     <div className="h-full flex flex-col">
-      <div className="navbar bg-black dark:text-neutral-content flex-col md:flex-row space-y-2 md:space-y-0">
-        <div className="flex-1">
-          <Link className="btn btn-ghost normal-case text-xl" href="/">
-            {/* Dextrading */}
-          </Link>
-          <ul className="menu menu-horizontal px-1 space-x-2">
-            {links.map(({ label, path }) => (
-              <li key={path}>
-                <Link className={pathname.startsWith(path) ? 'active' : ''} href={path}>
-                  {label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="flex-none space-x-2">
-          <WalletButton />
-          {/* <ClusterUiSelect /> */}
-          <div className="avatar online">
-  <div className="w-10 rounded-full">
-    <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-  </div>
-</div>
-        </div>
-       
-      </div>
       <ClusterChecker>
         <AccountChecker />
       </ClusterChecker>
       <div className="flex h-full gap-2">
-        <Sidebar />
-        <div className='flex-1 px-5'>
-        <Suspense
-          fallback={
-            <div className="text-center my-32">
-              <span className="loading loading-spinner loading-lg"></span>
+        <div className="hidden md:block">
+          <Sidebar />
+        </div>
+        <div className="flex-1 px-5">
+          <div className="navbar bg-black dark:text-neutral-content flex-row space-y-2 md:space-y-0">
+            <div className="flex-1">
+              <MobileSidebar />
+              <ul className="hidden md:flex gap-3">
+                {links.map(({ label, path }) => (
+                  <li className="text-white" key={path}>
+                    <Link
+                      className={pathname.startsWith(path) ? "active" : ""}
+                      href={path}
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-          }
-        >
-          {children}
-        </Suspense>
+            <div className="flex-none space-x-4">
+              <WalletButton />
+              {/* <ClusterUiSelect /> */}
+              <div className="avatar online">
+                <div className="w-10 rounded-full">
+                  <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <Suspense
+            fallback={
+              <div className="text-center my-32">
+                <span className="loading loading-spinner loading-lg"></span>
+              </div>
+            }
+          >
+            {children}
+          
+          </Suspense>
+         
+         
         </div>
         <Toaster position="bottom-right" />
+        
       </div>
+      <footer className="items-end align-bottom footer footer-center text-base-content p-4">
+        <aside>
+          <p>Copyright © DexTrendingTools</p>
+        </aside>
+      </footer>
       {/* <footer className="footer footer-center p-4 bg-base-300 text-base-content">
         <aside>
           <p>
@@ -75,8 +97,9 @@ export function UiLayout({ children, links }: { children: ReactNode; links: { la
           </p>
         </aside>
       </footer> */}
+    
     </div>
-  )
+  );
 }
 
 export function AppModal({
@@ -88,24 +111,24 @@ export function AppModal({
   submitDisabled,
   submitLabel,
 }: {
-  children: ReactNode
-  title: string
-  hide: () => void
-  show: boolean
-  submit?: () => void
-  submitDisabled?: boolean
-  submitLabel?: string
+  children: ReactNode;
+  title: string;
+  hide: () => void;
+  show: boolean;
+  submit?: () => void;
+  submitDisabled?: boolean;
+  submitLabel?: string;
 }) {
-  const dialogRef = useRef<HTMLDialogElement | null>(null)
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
 
   useEffect(() => {
-    if (!dialogRef.current) return
+    if (!dialogRef.current) return;
     if (show) {
-      dialogRef.current.showModal()
+      dialogRef.current.showModal();
     } else {
-      dialogRef.current.close()
+      dialogRef.current.close();
     }
-  }, [show, dialogRef])
+  }, [show, dialogRef]);
 
   return (
     <dialog className="modal" ref={dialogRef}>
@@ -115,8 +138,12 @@ export function AppModal({
         <div className="modal-action">
           <div className="join space-x-2">
             {submit ? (
-              <button className="btn btn-xs lg:btn-md btn-primary" onClick={submit} disabled={submitDisabled}>
-                {submitLabel || 'Save'}
+              <button
+                className="btn btn-xs lg:btn-md btn-primary"
+                onClick={submit}
+                disabled={submitDisabled}
+              >
+                {submitLabel || "Save"}
               </button>
             ) : null}
             <button onClick={hide} className="btn">
@@ -126,7 +153,7 @@ export function AppModal({
         </div>
       </div>
     </dialog>
-  )
+  );
 }
 
 export function AppHero({
@@ -134,37 +161,51 @@ export function AppHero({
   title,
   subtitle,
 }: {
-  children?: ReactNode
-  title: ReactNode
-  subtitle: ReactNode
+  children?: ReactNode;
+  title: ReactNode;
+  subtitle: ReactNode;
 }) {
   return (
     <div className="hero py-[64px]">
       <div className="hero-content text-center">
         <div className="max-w-2xl">
-          {typeof title === 'string' ? <h1 className="text-5xl font-bold">{title}</h1> : title}
-          {typeof subtitle === 'string' ? <p className="py-6">{subtitle}</p> : subtitle}
+          {typeof title === "string" ? (
+            <h1 className="text-5xl font-bold">{title}</h1>
+          ) : (
+            title
+          )}
+          {typeof subtitle === "string" ? (
+            <p className="py-6">{subtitle}</p>
+          ) : (
+            subtitle
+          )}
           {children}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export function ellipsify(str = '', len = 4) {
+export function ellipsify(str = "", len = 4) {
   if (str.length > 30) {
-    return str.substring(0, len) + '..' + str.substring(str.length - len, str.length)
+    return (
+      str.substring(0, len) + ".." + str.substring(str.length - len, str.length)
+    );
   }
-  return str
+  return str;
 }
 
 export function useTransactionToast() {
   return (signature: string) => {
     toast.success(
-      <div className={'text-center'}>
+      <div className={"text-center"}>
         <div className="text-lg">Transaction sent</div>
-        <ExplorerLink path={`tx/${signature}`} label={'View Transaction'} className="btn btn-xs btn-primary" />
-      </div>,
-    )
-  }
+        <ExplorerLink
+          path={`tx/${signature}`}
+          label={"View Transaction"}
+          className="btn btn-xs btn-primary"
+        />
+      </div>
+    );
+  };
 }

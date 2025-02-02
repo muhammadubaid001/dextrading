@@ -15,7 +15,6 @@ export const WalletButton = dynamic(async () => (await import('@solana/wallet-ad
 
 export function SolanaProvider({ children }: { children: ReactNode }) {
   const { cluster } = useCluster()
-  const network = WalletAdapterNetwork.Devnet;
   const endpoint = useMemo(() => cluster.endpoint, [cluster])
   const onError = useCallback((error: WalletError) => {
     console.error(error)
@@ -26,7 +25,7 @@ export function SolanaProvider({ children }: { children: ReactNode }) {
       // manually add any legacy wallet adapters here
       // new UnsafeBurnerWalletAdapter(),
     ],
-    [network],
+    [],
   );
 
   return (
