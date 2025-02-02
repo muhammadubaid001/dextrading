@@ -121,7 +121,7 @@ export default function DashboardFeature() {
             </div>
           </div>
         </div>
-        <ReactApexChart  options={options} series={options.series} type="area" height={350} />
+        {typeof window !== 'undefined' && <ReactApexChart  options={options} series={options.series} type="area" height={350} />}
       </div>
     </div>
   );
